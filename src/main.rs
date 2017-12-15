@@ -30,12 +30,27 @@ fn main() {
             Arg::with_name("context")
                 .long("context")
                 .short("C")
-                .takes_value(true),
+                .takes_value(true)
+                .value_name("num")
+                .help(
+                    "Print num lines of leading and trailing context surrounding each
+             match.",
+                ),
+        )
+        .arg(
+            Arg::with_name("ignore-case")
+                .long("ignore-case")
+                .short("i")
+                .help("Perform case insensitive matching."),
         )
         .get_matches();
 
-    let pattern = args.value_of("pattern").unwrap();
-    let re = Regex::new(pattern).unwrap();
+    let mut pattern = args.value_of("pattern").unwrap().to_string();
+
+    if args.occurrences_of("ignore-case") > 0 {
+        pattern = format!("(?i){}", pattern);
+    }
+    let re = Regex::new(&pattern).unwrap();
 
     let input = args.value_of("input").unwrap_or("-");
     let context_ = args.value_of("context").unwrap_or("0");
