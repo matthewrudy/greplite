@@ -1,7 +1,9 @@
 extern crate clap;
+extern crate colored;
 extern crate regex;
 
 use clap::{App, Arg};
+use colored::*;
 use regex::Regex;
 use std::fs::File;
 use std::io;
@@ -87,11 +89,11 @@ fn process_lines<T: BufRead + Sized>(reader: T, re: Regex, context_lines: usize)
     for local_ctx in ctx.iter() {
         for &(i, ref line, is_match) in local_ctx.iter() {
             let line_num = i + 1;
-            let prefix = match is_match {
-                true => ">",
-                false => " ",
+            let line_coloured = match is_match {
+                true => line.red(),
+                false => line.normal(),
             };
-            println!("{} {}: {}", prefix, line_num, line);
+            println!("{}: {}", line_num, line_coloured);
         }
         println!("");
     }
