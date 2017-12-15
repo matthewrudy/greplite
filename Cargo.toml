@@ -1,0 +1,9 @@
+[package]
+name = "greplite"
+version = "0.1.0"
+authors = ["Matthew Rudy Jacobs <matthewrudyjacobs@gmail.com>"]
+
+[dependencies]
+clap = "2.24.2"
+regex = "0.2.2"
+ 
